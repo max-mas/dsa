@@ -1,0 +1,29 @@
+$ python u01.py 
+Ex. 2 a):
+        Saving plot...
+Ex. 2 b):
+        Performing linear regression...
+        Linreg params: slope = 0.00109956 pm 5.8e-07, intercept = 3.318 pm 0.034, r2 = 0.986
+        Saving plot of time series and trend...
+        Saving plot of detrended time series...
+Ex. 2 c)
+        Saving plot of raw time series histogram using 100 bins...
+        Saving plot of detrended time series using 100 bins...
+Ex. 2 d)
+        Calculating empirical distributions with 1000 bins...
+        Calculating moments...
+                Order 0:
+                        Raw series: moment = 1.0
+                        Detrended series: moment = 1.0
+                Order 1:
+                        Raw series: moment = 0.001174
+                        Detrended series: moment = -8.8e-05
+                Order 2:
+                        Raw series: moment = 1037.801923
+                        Detrended series: moment = 28.229841
+                Order 3:
+                        Raw series: moment = 21.956709
+                        Detrended series: moment = 0.644716
+                Order 4:
+                        Raw series: moment = 2010048.442451
+                        Detrended series: moment = 2399.633382
