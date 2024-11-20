@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 data = np.loadtxt('wuerfel.txt')
 n_bins = round(10 / 0.01) # because the biggest and smallest possible are 12 and 2
 
