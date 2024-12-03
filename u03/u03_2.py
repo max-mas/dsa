@@ -22,66 +22,53 @@ plt.rcParams.update({
 })
 sns.color_palette("colorblind")
 
-def y(t):
-    return 10.0 * np.sin(2*np.pi * 2 * t) \
-        + 5.0 * np.sin(2*np.pi * 32 * t) \
-        + 2.0 * np.sin(2*np.pi* 100 * t)
+def y(t): # t in s
+    return 10.0 * np.sin(2*np.pi *   2 * t) \
+         +  5.0 * np.sin(2*np.pi *  32 * t) \
+         +  2.0 * np.sin(2*np.pi * 128 * t)
 
 def G_xx(ft, dt):
-    return 2 / (len(ft) * dt) * np.real(ft)**2 + np.imag(ft)**2
+    return 2 / (len(ft) * dt) * np.real(ft)**2 + np.imag(ft)**2 # eqn (170) in the lecture notes
 
 def plot_G(fs, Gs, rates):
     fig, ax = plt.subplots()
 
     for f, G, rate in zip(fs, Gs, rates):
         ax.plot(f, G, label=f"Sampling Rate {rate} Hz")
+    ax.axvline(2, color="indianred", ls="--", alpha=0.7, label="Expected Peak Locations")
+    ax.axvline(32, color="indianred", ls="--", alpha=0.7)
+    ax.axvline(128, color="indianred", ls="--", alpha=0.7)
 
     ax.set_xlabel("Frequency $f$ (1/s)")
     ax.set_ylabel("$G_{xx}$")
     ax.grid()
     ax.legend()
-    ax.set_ylim(bottom=0)    
+    ax.set_yscale("log")
+    ax.set_ylim(bottom=1)
+    ax.set_xscale("log")
+    ax.set_xlim(left=1)    
 
     fig.tight_layout()
     return fig
 
+def get_spectral_density(n):
+    t = np.linspace(0, 1, n)
+    y_t = y(t)
+    ft = np.fft.fft(y_t)
+    # fft[0:n//2] are the zero- and positive-frequency section of the FT
+    return G_xx(ft[:n//2], 1/n) # indexing here only correct for even n
+
 def main():
-    t_50  = np.linspace(0, 1, 50)
-    t_100 = np.linspace(0, 1, 100)
-    t_256 = np.linspace(0, 1, 256)
-    t_512 = np.linspace(0, 1, 512)
+    N = [50, 100, 200, 256] # all even. assumed above
+    Gs = []
+    fs = []
+    for n in N:
+        Gs.append(get_spectral_density(n))
+        fs.append(np.linspace(0, n/2, n//2))    
 
-    y_50 = y(t_50)
-    y_100 = y(t_100)
-    y_256 = y(t_256)
-    y_512 = y(t_512)
-
-    ft_50 = np.fft.fft(y_50)
-    ft_100 = np.fft.fft(y_100)
-    ft_256 = np.fft.fft(y_256)
-    ft_512 = np.fft.fft(y_512)
-
-    G_50 = G_xx(y_50, 2/100)
-    G_100 = G_xx(y_100, 1/100)
-    G_256 = G_xx(y_256, y_256[1] - y_256[0])
-    G_512 = G_xx(y_512, y_512[1] - y_512[0])
-
-    fig = plot_G(
-        [#np.linspace(0, 1/(2*0.02), 50), 
-         #np.linspace(0, 1/(2*0.01), 100), 
-         np.linspace(0, 1/(2*(t_256[1] - t_256[0])), 256),
-         np.linspace(0, 1/(2*(t_256[1] - t_256[0])), 512)], 
-        [#G_50, G_100, 
-            G_256,
-            G_512], 
-        [#50, 100, 
-            256,
-            512])
+    fig = plot_G(fs, Gs, N)
     fig.savefig("G.pdf")
     plt.close(fig)
-
-
-    
 
 if __name__ == "__main__":
     main()
