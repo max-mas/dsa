@@ -64,7 +64,7 @@ def plot_wave(mag, delta, eps, phi):
     phi_ax.set_xlabel("Time $t$ (a.u.)")
     mag_ax.set_ylabel("Wave Amplitude (a.u.)")
     del_ax.set_ylabel("Phase Difference $\\delta$ $(2\\pi)$")
-    eps_ax.set_ylabel("Ellipticity $\\epsilon$")
+    eps_ax.set_ylabel("Ellipticity $\\varepsilon$")
     phi_ax.set_ylabel("Azimuth $\\varphi$ $(2\\pi)$")
 
     fig.tight_layout()
@@ -100,7 +100,7 @@ def main():
     abs1 = np.sqrt(rho**2 + rho_y1**2)
     delta1 = phi - phi_y1 # removes omega*t component
     azimuth_1 = 0.5 * np.arctan2(2 * rho * rho_y1 * np.cos(delta1), (rho**2 - rho_y1**2)) # x1 / x2
-    ellipticity_1 = np.tan(0.5 * np.arcsin(2 * rho * rho_y1 / (rho**2 + rho_y1**2) * np.sin(delta1)))
+    ellipticity_1 = np.abs(np.tan(0.5 * np.arcsin(2 * rho * rho_y1 / (rho**2 + rho_y1**2) * np.sin(delta1))))
 
     fig = plot_wave(abs1, delta1, ellipticity_1, azimuth_1)
     fig.savefig("wave1.pdf")
@@ -108,7 +108,7 @@ def main():
     abs2 = np.sqrt(rho**2 + rho_y2**2)
     delta2 = phi - phi_y2 # removes omega*t component
     azimuth_2 = 0.5 * np.arctan2(2 * rho * rho_y2 * np.cos(delta2), (rho**2 - rho_y2**2)) # x1 / x2
-    ellipticity_2 = np.tan(0.5 * np.arcsin(2 * rho * rho_y2 / (rho**2 + rho_y2**2) * np.sin(delta2)))
+    ellipticity_2 = np.abs(np.tan(0.5 * np.arcsin(2 * rho * rho_y2 / (rho**2 + rho_y2**2) * np.sin(delta2))))
 
     fig = plot_wave(abs2, delta2, ellipticity_2, azimuth_2)
     fig.savefig("wave2.pdf")
