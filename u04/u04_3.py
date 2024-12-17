@@ -52,7 +52,8 @@ def main():
     ax.grid()
     ax.set_xlim(0, 11)
     ax.set_ylim(bottom=0)
-
+    
+    fig.tight_layout()
     fig.savefig("lstsq.pdf")
     plt.close(fig)
 
