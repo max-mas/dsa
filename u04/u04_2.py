@@ -56,6 +56,7 @@ resid_ax.plot(t, np.abs(y - np.sum(imf, axis=1)))
 resid_ax.set_ylabel("Residual (a.u.)")
 resid_ax.set_xlabel("Time (a.u.)")
 resid_ax.set_xlim(t[0], t[-1])
+resid_ax.grid()
 
 fig.tight_layout()
 fig.savefig("imf.pdf")
