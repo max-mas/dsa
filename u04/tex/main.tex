@@ -32,7 +32,7 @@
 \maketitle
 
 \section{Windowing}
-The time series with and without the window and their respective spectral densities are shown in figure~\ref{fig:window}. Note that the unwindowed spectrum is implicitly windowed with a rectangular or boxcar window. The "raw" spectrum has two pronounced peaks, while the hanning-windowed spectrum is more broad and compatible with the claim that there might be three frequencies in the signal. However, it is not possible to determine them with precision, only point at the general range in which they must lie. It is possible that there was some error in the calculations here, or the frequencies are actually just very close.
+The time series with and without the window and their respective spectral densities are shown in figure~\ref{fig:window}. Note that the unwindowed spectrum is implicitly windowed with a rectangular or boxcar window. The "raw" spectrum has two pronounced peaks. These can not clearly be distinguished from one another in the spectrum of the windowed signal, but here the third, weak component at roughly 20 kHz can be identified. This demonstrates the trade-offs between both approaches. In practice, one should investigate some different windowing functions for a given signal. 
 
 \begin{figure}[h]
     \centering
