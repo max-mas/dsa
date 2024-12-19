@@ -15,7 +15,7 @@ plt.rcParams.update({
     "ytick.labelsize": 16,
     "axes.titlesize": 24,
     "figure.titlesize": 24,
-    "font.family": "sans-serif",
+    "font.family": "serif",
     "figure.dpi": 300,
     "figure.figsize": [8, 6]
 })
