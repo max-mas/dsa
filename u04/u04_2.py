@@ -37,7 +37,7 @@ y = t_y[:, 1]
 
 imf = emd.sift.sift(y)
 
-fig, [sum_ax, imf_ax, resid_ax] = plt.subplots(nrows=3, ncols=1, figsize=(8, 12), sharex=True)
+fig, [sum_ax, imf_ax, resid_ax] = plt.subplots(nrows=3, ncols=1, figsize=(8, 16), sharex=True)
 
 sum_ax.plot(t, y, label="Signal", ls="--", color="forestgreen")
 sum_ax.plot(t, np.sum(imf, axis=1), label="IMF Sum", ls="-.", color="indianred")
@@ -70,7 +70,7 @@ for i in range(len(imf[0])):
     phis.append(phi)
     omegas.append(omega)
 
-fig, [sig_ax, rho_ax, phi_ax, omega_ax] = plt.subplots(nrows=4, ncols=1, figsize=(8, 12), sharex=True)
+fig, [sig_ax, rho_ax, phi_ax, omega_ax] = plt.subplots(nrows=4, ncols=1, figsize=(8, 16), sharex=True)
 
 for i, (rho, phi, omega) in enumerate(zip(rhos, phis, omegas)):
     sig_ax.plot(t, imf[:, i], label=f"IMF {i}")
