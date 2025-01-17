@@ -28,13 +28,13 @@ def set_bit(value, n):
     return value | (1 << n)
 
 def main():
-    message = np.loadtxt("message.txt")
+    message = np.loadtxt("message.txt")[8000:]
     N = len(message)
 
     data_fs = [697, 770, 852, 941, 1209, 1336, 1477, 1633]
 
     win = sig.windows.hamming(400, sym=True)
-    SFT = sig.ShortTimeFFT(win=win, hop=400, fs=8000, fft_mode="onesided2X", scale_to="psd") # 400 = 50 ms
+    SFT = sig.ShortTimeFFT(win=win, hop=800, fs=8000, fft_mode="onesided2X", scale_to="psd") # 400 = 50 ms
     stft = SFT.stft(message)
     psd = np.abs(stft)
 
@@ -52,11 +52,11 @@ def main():
 
     fig, ax = plt.subplots(figsize=(10,7))
     mask = psd>0.035
-    im = ax.imshow(mask, aspect="auto", origin="lower", extent=SFT.extent(N), cmap="Greens")
+    im = ax.imshow(mask, aspect="auto", origin="lower", extent=SFT.extent(N), cmap="Greys")
     ax.hlines(data_fs, xmin=0, xmax=N/8000,  colors="indianred", linestyles="dashed", label="Bit Frequencies")
     ax.set_ylabel("Frequency $f$ (Hz)")
     ax.set_xlabel("Time $t$ (s)")
-    fig.colorbar(im, label="Spectral Density (a.u.)")
+    fig.colorbar(im, label="Spectral Density > 0.035")
     ax.set_ylim(500, 2000)
     ax.legend()
 
@@ -64,11 +64,11 @@ def main():
     fig.savefig("test2.pdf")
 
     ticks = psd.shape[1]
-    indices = [int(data_f/4020 * psd.shape[0]) for data_f in data_fs]
+    indices = [int(data_f/4020 * psd.shape[0]) + 1 for data_f in data_fs]
     print(indices)
 
     message = ""
-    for i in range(0, ticks-1, 2):
+    for i in range(1, ticks-1, 2):
         char = 0
         first_half = mask[indices, i]
         second_half = mask[indices, i+1]
@@ -77,12 +77,13 @@ def main():
             char = set_bit(char, loc) if val else char
             val = second_half[-(4-loc)]
             char = set_bit(char, loc+4) if val else char
-        print(bin(char))
+        print(char)
         message += chr(char)
 
     print(message)
         
-
+    # Caesar says: LZLVKBRXDPHUUBFKULVWPDVDQGDKDSSBQHZBHDU
+    # IWISHYOUAMERRYCHRISTMASANDAHAPPYNEWYEAR
     
 
 if __name__ == "__main__":
